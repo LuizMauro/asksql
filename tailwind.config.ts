@@ -51,7 +51,7 @@ const config: Config = {
         900: "#6a3252",
       },
       transparent: "transparent",
-      blueberry: { 300: "#323842", 600: "#151A2A", 900: "#07061D" },
+      blueberry: { 300: "#323842", 600: "#161b22", 900: "#07061D" },
       background: "#030712",
       pistachio: "#D3FFCC",
       cream: "#E2DFCD",

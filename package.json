@@ -12,6 +12,7 @@
     "@types/node": "20.5.1",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
+    "@uiw/react-textarea-code-editor": "^2.1.7",
     "ai": "^2.2.6",
     "autoprefixer": "10.4.15",
     "eslint": "8.47.0",

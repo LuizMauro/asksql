@@ -6,9 +6,13 @@ import Logo from "../assets/LogoComponentSVG";
 import { Trash2, Stars } from "lucide-react";
 import Editor from "react-simple-code-editor";
 
-import { highlight, languages } from "prismjs";
-import "prismjs/components/prism-sql";
-import "prismjs/themes/prism-dark.css";
+import "@uiw/react-textarea-code-editor/dist.css";
+import dynamic from "next/dynamic";
+
+const CodeEditor = dynamic(
+  () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
+  { ssr: false }
+);
 
 export default function Home() {
   const [schema, setSchema] = useState("");
@@ -37,50 +41,56 @@ export default function Home() {
         className="py-8 w-full flex flex-col text-foam"
       >
         <label htmlFor="schema" className="text-lg font-light">
-          Cole seu código SQL aqui:
+          Cole sua schema SQL aqui:
         </label>
 
-        <div className="h-40 overflow-y-scroll overflow-x-hidden rounded-md focus-within:ring-2 focus-within:ring-lime-200">
-          <Editor
-            name="schema"
-            textareaId="schema"
+        <div style={{ height: 200, overflow: "auto", margin: 10 }}>
+          <CodeEditor
             value={schema}
-            onValueChange={(code) => setSchema(code)}
-            highlight={(code) => highlight(code, languages.sql, "sql")}
-            padding={16}
-            textareaClassName="outline-none"
-            className="my-4 font-mono min-h-full bg-blueberry-600 border border-blueberry-300 "
+            language="sql"
+            placeholder="Entre com a schema de seu banco SQL aqui"
+            onChange={(evn) => setSchema(evn.target.value)}
+            className="font-mono min-h-full bg-blueberry-600 border border-blueberry-300 overflow-auto rounded-md"
           />
         </div>
 
-        <label htmlFor="question" className="text-lg font-light mt-2">
-          Faça uma pergunta sobre o código
-        </label>
-        <textarea
-          className="my-4 bg-blueberry-600 border border-blueberry-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-lime-200"
-          name="question"
-          id="question"
-          value={input}
-          onChange={handleInputChange}
-        />
+        <div className="w-full mt-5 mb-5">
+          <label htmlFor="question" className="text-lg font-light mt-2">
+            Dê instruções de como quer a query
+          </label>
+          <textarea
+            className="w-full bg-blueberry-600 border border-blueberry-300 mt-2 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-lime-200"
+            name="question"
+            id="question"
+            value={input}
+            onChange={handleInputChange}
+            placeholder="Exemplo: liste usuários com no minimo 5 posts"
+          />
 
-        <button
-          type="submit"
-          className="text-pistachio flex items-center justify-center rounded-lg border border-pistachio h-14 gap-2"
-        >
-          <Stars className="h-6 w-6 " /> Perguntar à inteligencia artificial
-        </button>
+          <button
+            type="submit"
+            className="mt-4 w-full text-pistachio flex items-center justify-center rounded-lg border border-pistachio h-14 gap-4"
+          >
+            Gerar Query
+            <Stars className="h-6 w-6 " />
+          </button>
+        </div>
       </form>
 
-      <div className="mt-6">
-        <span className="text-lg font-light text-foam">Resposta</span>
+      {result.length > 0 && (
+        <div className="mt-6">
+          <span className="text-lg font-light text-foam">Resposta</span>
 
-        <textarea
-          readOnly
-          className="my-4 bg-blueberry-600 h-40 text-foam w-full font-mono border border-blueberry-300 rounded-md px-4 py-3 outline-none"
-          value={result}
-        />
-      </div>
+          <div style={{ height: 200, overflow: "auto" }}>
+            <CodeEditor
+              readOnly
+              value={result}
+              language="sql"
+              className="min-h-full bg-blueberry-600 h-40 text-foam w-full font-mono border border-blueberry-300 rounded-md px-4 py-3 outline-none"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
