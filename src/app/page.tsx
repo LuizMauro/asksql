@@ -85,8 +85,8 @@ export default function Home() {
             <CodeEditor
               readOnly
               value={result}
-              language="sql"
-              className="min-h-full bg-blueberry-600 h-40 text-foam w-full font-mono border border-blueberry-300 rounded-md px-4 py-3 outline-none"
+              language="js"
+              className="min-h-full bg-blueberry-600  text-foam w-full font-mono border border-blueberry-300 rounded-md px-4 py-3 outline-none"
             />
           </div>
         </div>
